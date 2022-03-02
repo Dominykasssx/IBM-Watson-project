@@ -6,7 +6,7 @@ start_service() {
         local enabled
 
         config_load 'ibm-watson'
-        config_get enabled config 'enable' '1'
+        config_get enabled config 'enable' '0'
 		config_get orgId config 'orgId' ''
 		config_get typeId config 'typeId' ''
 		config_get deviceId config 'deviceId' ''
