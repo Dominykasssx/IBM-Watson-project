@@ -1,19 +1,20 @@
 #include <argp.h>
 #include "arguments_parse.h"
 
-void arguments_init(struct arguments *arguments){
-	arguments->organization = "";
+void arguments_init(struct arguments *arguments)
+{
+	  arguments->organization = "";
     arguments->type = "";
     arguments->device = "";
     arguments->token = "";
 }
 
-static error_t parse_opt (int key, char *arg, struct argp_state *state)
+error_t parse_opt (int key, char *arg, struct argp_state *state)
 {
   struct arguments *arguments = state->input;
 
   switch (key)
-    {
+  {
     case 'o':
       arguments->organization = arg;
       break;
@@ -33,9 +34,6 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
       break;
     default:
         return ARGP_ERR_UNKNOWN;
-    }
+  }
   return 0;
 }
-
-
-

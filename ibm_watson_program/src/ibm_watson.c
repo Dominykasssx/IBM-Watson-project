@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "invoke.h"
 
-
 volatile int interrupt = 0;
 volatile sig_atomic_t deamonize = 1;
 
