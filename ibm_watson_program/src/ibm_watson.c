@@ -15,19 +15,17 @@ void sendMessageLoop(IoTPDevice *device)
     struct memory memory;
     int rc = 0;
     int rc1 = 0;
-    IoTPEventCallbackHandler cb;
+    IoTPEventCallbackHandler cd;
 
-    while (!interrupt)
-    {
+    while (!interrupt){
         getMemoryUse(&memory);
         char data[1024];
         sprintf(data, "{\"totalMemory\": \"%ld\", \"freeMemory\":\"%ld\", \"sharedMemory\":\"%ld\",\"bufferedMemory\":\"%ld\"}",
                 memory.totalMemory, memory.freeMemory, memory.sharedMemory, memory.bufferedMemory);
-        rc = IoTPDevice_sendEvent(device, "status", data, "json", QoS2, NULL);
+        rc = IoTPDevice_sendEvent(device, "status", data, "json", QoS1, NULL);
 
-        rc1 = IoTPDevice_setEventCallback(device, cb);
+        rc1 = IoTPDevice_setEventCallback(device, cd);
         
-
         if (rc != IOTPRC_SUCCESS || rc1 != IOTPRC_SUCCESS){
             syslog(LOG_ERR, "Failed to send data");
         }
@@ -66,20 +64,6 @@ void setConfig(struct arguments arguments, IoTPConfig **config)
     IoTPConfig_setProperty(*config, "auth.token", arguments.token);
 }
 
-void createConfig(IoTPConfig *config)
-{
-    /* Set IoTP Client log handler */
-    int rc = IoTPConfig_setLogHandler(IoTPLog_FileDescriptor, stdout);
-    if (rc != 0){
-        syslog(LOG_ERR, "Failed to set Log Handler");
-    }
-
-    /* Create IoTPConfig object using configuration options defined in the configuration file. */
-    rc = IoTPConfig_create(&config, NULL);
-    if (rc != 0){
-        syslog(LOG_ERR, "Failed to create config object");
-    }
-}
 int watsonInit(IoTPConfig **config, IoTPDevice **device, struct arguments arguments)
 {
     /* Set signal handlers */
