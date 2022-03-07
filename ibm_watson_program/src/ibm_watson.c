@@ -14,6 +14,7 @@ void sendMessageLoop(IoTPDevice *device)
 {
     struct memory memory;
     int rc = 0;
+    int rc1 = 0;
     IoTPEventCallbackHandler cb;
 
     while (!interrupt)
@@ -24,7 +25,7 @@ void sendMessageLoop(IoTPDevice *device)
                 memory.totalMemory, memory.freeMemory, memory.sharedMemory, memory.bufferedMemory);
         rc = IoTPDevice_sendEvent(device, "status", data, "json", QoS2, NULL);
 
-        int rc1 = IoTPDevice_setEventCallback(device, cb);
+        rc1 = IoTPDevice_setEventCallback(device, cb);
         
 
         if (rc != IOTPRC_SUCCESS || rc1 != IOTPRC_SUCCESS)
