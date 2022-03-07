@@ -28,12 +28,10 @@ void sendMessageLoop(IoTPDevice *device)
         rc1 = IoTPDevice_setEventCallback(device, cb);
         
 
-        if (rc != IOTPRC_SUCCESS || rc1 != IOTPRC_SUCCESS)
-        {
+        if (rc != IOTPRC_SUCCESS || rc1 != IOTPRC_SUCCESS){
             syslog(LOG_ERR, "Failed to send data");
         }
-        else
-        {
+        else{
             syslog(LOG_INFO, "Data sent successfully");
         }
         sleep(5);
@@ -72,15 +70,13 @@ void createConfig(IoTPConfig *config)
 {
     /* Set IoTP Client log handler */
     int rc = IoTPConfig_setLogHandler(IoTPLog_FileDescriptor, stdout);
-    if (rc != 0)
-    {
+    if (rc != 0){
         syslog(LOG_ERR, "Failed to set Log Handler");
     }
 
     /* Create IoTPConfig object using configuration options defined in the configuration file. */
     rc = IoTPConfig_create(&config, NULL);
-    if (rc != 0)
-    {
+    if (rc != 0){
         syslog(LOG_ERR, "Failed to create config object");
     }
 }
@@ -93,8 +89,7 @@ int watsonInit(IoTPConfig **config, IoTPDevice **device, struct arguments argume
     syslog(LOG_DEBUG, "Log handler");
     /* Set IoTP Client log handler */
     int rc = IoTPConfig_setLogHandler(IoTPLog_FileDescriptor, stdout);
-    if (rc != 0)
-    {
+    if (rc != 0){
         syslog(LOG_ERR, "Failed to set Log Handler");
         closelog();
         exit(1);
@@ -102,8 +97,7 @@ int watsonInit(IoTPConfig **config, IoTPDevice **device, struct arguments argume
     syslog(LOG_DEBUG, "Config object");
     /* Create IoTPConfig object using configuration options defined in the configuration file. */
     rc = IoTPConfig_create(config, NULL);
-    if (rc != 0)
-    {
+    if (rc != 0){
         syslog(LOG_ERR, "Failed to create config object");
         return 1;
     }
@@ -113,24 +107,21 @@ int watsonInit(IoTPConfig **config, IoTPDevice **device, struct arguments argume
     syslog(LOG_DEBUG, "Create device object");
     /* Create IoTPDevice object */
     rc = IoTPDevice_create(device, *config);
-    if (rc != 0)
-    {
+    if (rc != 0){
         syslog(LOG_ERR, "Failed to create device object");
         return 1;
     }
     syslog(LOG_DEBUG, "MQTT handler");
     /* Set MQTT Trace handler */
     rc = IoTPDevice_setMQTTLogHandler(*device, &MQTTTraceCallback);
-    if (rc != 0)
-    {
+    if (rc != 0){
         syslog(LOG_ERR, "Failed to set MQTT trace handler");
         return 1;
     }
     syslog(LOG_DEBUG, "Watson api connect");
     /* Invoke connection API IoTPDevice_connect() to connect to WIoTP. */
     rc = IoTPDevice_connect(*device);
-    if (rc != 0)
-    {
+    if (rc != 0){
         syslog(LOG_ERR, "Failed to connect to Watson IoT API");
         return 1;
     }
@@ -140,8 +131,7 @@ int watsonDisconnect(IoTPDevice *device)
 {
     syslog(LOG_DEBUG, "Disconnecting device");
     int rc = IoTPDevice_disconnect(device);
-    if (rc != IOTPRC_SUCCESS)
-    {
+    if (rc != IOTPRC_SUCCESS){
         syslog(LOG_ERR, "Failed to disconnect from IoT Device");
         return 1;
     }
