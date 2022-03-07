@@ -3,7 +3,7 @@
 
 void arguments_init(struct arguments *arguments)
 {
-	  arguments->organization = "";
+    arguments->organization = "";
     arguments->type = "";
     arguments->device = "";
     arguments->token = "";
