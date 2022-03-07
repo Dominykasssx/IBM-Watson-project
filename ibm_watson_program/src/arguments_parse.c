@@ -13,8 +13,7 @@ error_t parse_opt (int key, char *arg, struct argp_state *state)
 {
   struct arguments *arguments = state->input;
 
-  switch (key)
-  {
+  switch (key){
     case 'o':
       arguments->organization = arg;
       break;
